@@ -105,11 +105,11 @@ def replacesym(zifu):
     result = result.replace('\"', '')
     return result
 setufen = 0
-debugmode = 0 #设为1时进入字符串替换调试模式，用于调试去除不能作为文件名的符号功能是否正常运行
+debugmode = 0 #Если 1 то включиться отладка
 if debugmode == 1:
-    print("进入字符串替换调试模式。")
-    replacedebug = replacesym(input("请输入字符串："))
-    print ('替换后字符串：' + replacedebug)
+    print("Отладка включена.")
+    replacedebug = replacesym(input("введите символы："))
+    print ('Строка после замены：' + replacedebug)
     sys.exit(0)
 if os.path.exists("savedir.txt") is False:#检测文件是否存在，若不存在则创建
     createdirr = open ("./savedir.txt", mode="a")
@@ -128,21 +128,21 @@ if os.system("curl -V >nul") == 0:
         os.remove("nul")
     except:
         pass
-    print("\033[32m已安装curl。将使用curl进行下载。\033[0m")
+    print("\033[32m Для скачивания будет использован curl\033[0m")
     usecurl = True
 else:
-    print("\033[33m未安装curl。将使用requests模块进行下载。\033[0m\n如果你已安装，请确认是否添加进环境变量。")
+    print("\033[33curl не найден будет использована бибилотека requests \033[0m\nхотите изменить на curl?")
     usecurl = False
-print ("正在使用Lolicon API v1。无需提供APIKEY。")
-print ("在savedir.txt中可以输入自定义保存路径。")
-print ("当前保存路径："+ str(showdir))
-print ("为确保API运行正常，请勿请求过多涩图。")
-count = int(input('来几份涩图？ ') or 1)
+print ("Используется Lolicon API v1. Ключ не нужен")
+print ("в savedir.txt указан путь сохранения")
+print ("Путь сохранения: "+ str(showdir))
+print ("чтобы API не сломался, не запрашивайте слишком много")
+count = int(input('Цикл: ') or 1)
 if count > 0:
-        numb = int(input("一份几张涩图？（最大为100）") or 1)
+        numb = int(input("Колличество (Макс 100): ") or 1)
         if numb > 0:
-            word = urllib.parse.quote(input("搜索条件？（插画标题、作者、标签，留空则随机）"))#请求用户输入搜索条件+编码为url
-            argu = str(input("其他参数？（参数之间用&分割，可留空）"))
+            word = urllib.parse.quote(input("Что нибудь дополнительное？（Название、Художник、Тэг，Оставьте пустым, если любые）"))#请求用户输入搜索条件+编码为url
+            argu = str(input("Доп аргументы? (Параметры сохранения, Можно оставить пустым)"))
             #word.encode('utf8','strict')
             for i in range(count): #循环（涩图份数）次
                 ree = urllib.request.urlopen('https://api.lolicon.app/setu/v1/?keyword=' + word + '&num=' + str(numb) + "&" + argu) #从api获取json
@@ -158,9 +158,9 @@ if count > 0:
                 if code == 0:
                     startdl(data)
                 else:
-                    print("\033[31m发生错误！代码：" + str(code) + "，错误信息：" + msg + "\033[0m")
+                    print("\033[31mХаха исключение!：" + str(code) + "，Исключение：" + msg + "\033[0m")
                     break
         else:
-            print("\033[31m张数无效。\033[0m")
+            print("\033[31mУкажи меньше.\033[0m")
 else:
-    print("\033[31m份数无效。\033[0m")
+    print("\033[31mХз\033[0m")
